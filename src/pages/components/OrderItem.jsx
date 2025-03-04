@@ -19,14 +19,19 @@ function OrderItem({ order, onUpdateStatus }) {
       </div>
 
       {/* Thông tin đơn hàng */}
-      <p className="text-gray-600 mt-2">{order.date}</p>
+      <p className="text-lg font-bold mt-1">Khách: {order.customerName === "" ? "Lạ" : order.customerName}</p>
+      <p className="text-gray-600">{new Intl.DateTimeFormat("vi-VN", { dateStyle: "short", timeStyle: "short" }).format(new Date(order.date))}</p>
       <p className="font-bold">Số lượng sản phẩm: {order.totalItems}</p>
       {order.items.map((item, index) => (
         <div key={index} className="text-gray-700">
-          {item.name} {item.quantity} x {item.price}đ
+          
+          {Array.from({ length: item.quantity }).map((_, index) => (
+            <span key={index}>🧋</span>
+          ))}
+          {item.quantity} ly {item.name} x <span className="text-red-500">{item.price}K</span>
         </div>
       ))}
-      <p className="font-bold mt-2">Tổng cộng: {order.totalPrice}đ</p>
+      <p className="font-bold mt-2">Tổng cộng: <span className="text-red-500">{order.totalPrice}K</span></p>
 
       {/* Hiển thị nút hành động */}
       {order.status === "new" && (
